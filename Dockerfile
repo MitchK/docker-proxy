@@ -1,8 +1,11 @@
 FROM silarsis/base
-MAINTAINER Kevin Littlejohn <kevin@littlejohn.id.au>
-RUN apt-get -yq update
+MAINTAINER Michael Kunzmann
 
-RUN apt-get -yq install squid iptables
+ENV SAP_PROXY=http://proxy.wdf.sap.corp:8080
+
+RUN http_proxy=$SAP_PROXY https_proxy=$SAP_PROXY apt-get -yq update
+
+RUN http_proxy=$SAP_PROXY https_proxy=$SAP_PROXY apt-get -yq install squid iptables
 ADD squid.conf /etc/squid3/squid.conf
 ADD start_squid.sh /usr/local/bin/start_squid.sh
 
